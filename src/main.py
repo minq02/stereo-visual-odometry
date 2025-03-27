@@ -1,8 +1,4 @@
-from InputProcessor import InputProcessor
-import cv2
+from data_handler import DataHandler
 
 # Instantiate the processor
-data_dir = "data/"
-processor = InputProcessor(data_dir)
-
-processor.load_images("02")
+processor = DataHandler("01")
