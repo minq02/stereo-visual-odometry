@@ -4,8 +4,10 @@ import numpy as np
 
 class InputProcessor:
     def __init__(self, data_dir):
+        # Directory to KITTI dataset
         self.data_dir = data_dir
     
+    # Load image based on sequence number
     def load_images(self, sequence):
         left_path = os.path.join(self.data_dir, "data_odometry_gray", "dataset", "sequences", sequence, "image_0")
         right_path = os.path.join(self.data_dir, "data_odometry_gray", "dataset","sequences", sequence, "image_1")

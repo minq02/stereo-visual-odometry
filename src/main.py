@@ -5,4 +5,4 @@ import cv2
 data_dir = "data/"
 processor = InputProcessor(data_dir)
 
-processor.load_images("00")
+processor.load_images("02")
