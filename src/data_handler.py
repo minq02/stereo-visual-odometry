@@ -38,9 +38,11 @@ class DataHandler:
         for i in range(len(self.poses)):
             self.gt[i] = np.array(self.poses.iloc[i]).reshape((3, 4))
 
+        self.reset_frames()
+
     def reset_frames(self):
         """
-        Generator reset to first frame
+        Generator to reset first frame
         """
         self.left_image = (cv2.imread(os.path.join(self.sequence_path, "image_0", img), cv2.IMREAD_GRAYSCALE) for img in self.left_image_files)
         self.right_image = (cv2.imread(os.path.join(self.sequence_path, "image_0", img), cv2.IMREAD_GRAYSCALE) for img in self.right_image_files)
