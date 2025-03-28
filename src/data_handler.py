@@ -27,8 +27,8 @@ class DataHandler:
         calibration_csv = pd.read_csv(full_calibration_path, delimiter=" ", header=None, index_col=0)
         self.P0 = np.array(calibration_csv.loc['P0:']).reshape((3, 4))
         self.P1 = np.array(calibration_csv.loc['P1:']).reshape((3, 4))
-        self.P2 = np.array(calibration_csv.loc['P2:']).reshape((3, 4))
-        self.P3 = np.array(calibration_csv.loc['P3:']).reshape((3, 4))
+        self.k0, self.r0, self.t0 = self.decompose_projection_matrix(self.P0)
+        self.k1, self.r1, self.t1 = self.decompose_projection_matrix(self.P1)
 
         # Fetch timestamp
         ts = np.array(pd.read_csv(os.path.join(self.calibration_path, "times.txt"), delimiter=" ", header=None))
@@ -45,4 +45,10 @@ class DataHandler:
         Generator to reset first frame
         """
         self.left_image = (cv2.imread(os.path.join(self.sequence_path, "image_0", img), cv2.IMREAD_GRAYSCALE) for img in self.left_image_files)
-        self.right_image = (cv2.imread(os.path.join(self.sequence_path, "image_0", img), cv2.IMREAD_GRAYSCALE) for img in self.right_image_files)
+        self.right_image = (cv2.imread(os.path.join(self.sequence_path, "image_1", img), cv2.IMREAD_GRAYSCALE) for img in self.right_image_files)
+
+    def decompose_projection_matrix(p):
+        k, r, t, _, _, _, _ = cv2.decomposeProjectionMatrix(p)
+        t = (t / t[3])[:3]
+
+        return k, r, t
