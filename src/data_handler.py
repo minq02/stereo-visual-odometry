@@ -11,8 +11,8 @@ class DataHandler:
     def __init__(self, sequence):
         # Set up directories
         self.sequence_path = os.path.join("data", "data_odometry_gray", "dataset", "sequences", sequence)
-        self.pose_path = os.path.join("data", "data_odometry_pose", "dataset", "poses", f"{sequence}.txt")
-        self.calibration_path = os.path.join("data", "data_odometry_cali", "dataset", "sequences", sequence)
+        self.pose_path = os.path.join("data", "data_odometry_poses", "dataset", "poses", f"{sequence}.txt")
+        self.calibration_path = os.path.join("data", "data_odometry_calib", "dataset", "sequences", sequence)
         
         # Fetch image
         self.left_image_files = sorted(os.listdir(os.path.join(self.sequence_path, "image_0")), key = lambda x: int(x.split('.')[0]))
@@ -47,7 +47,7 @@ class DataHandler:
         self.left_image = (cv2.imread(os.path.join(self.sequence_path, "image_0", img), cv2.IMREAD_GRAYSCALE) for img in self.left_image_files)
         self.right_image = (cv2.imread(os.path.join(self.sequence_path, "image_1", img), cv2.IMREAD_GRAYSCALE) for img in self.right_image_files)
 
-    def decompose_projection_matrix(p):
+    def decompose_projection_matrix(self, p):
         k, r, t, _, _, _, _ = cv2.decomposeProjectionMatrix(p)
         t = (t / t[3])[:3]
 
